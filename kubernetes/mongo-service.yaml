@@ -1,0 +1,20 @@
+# Kubernetes API version for Services.
+apiVersion: v1
+
+# Creates a stable network endpoint for MongoDB.
+kind: Service
+
+metadata:
+  name: mongodb
+
+spec:
+  # Makes MongoDB accessible only inside the cluster.
+  type: ClusterIP
+
+  # Selects Pods with the label app: mongodb.
+  selector:
+    app: mongodb
+
+  ports:
+    - port: 27017
+      targetPort: 27017

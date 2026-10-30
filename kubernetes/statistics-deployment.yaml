@@ -1,0 +1,43 @@
+# Specifies the Kubernetes API version used for Deployments.
+apiVersion: apps/v1
+
+# Defines a Deployment resource.
+# A Deployment manages Pods and maintains the desired number of replicas.
+kind: Deployment
+
+metadata:
+  # The name of the Statistics Service Deployment.
+  name: statistics-service
+
+spec:
+  # Runs one instance of Statistics Service.
+  replicas: 2
+
+  # Selects Pods managed by this Deployment.
+  selector:
+    matchLabels:
+      app: statistics-service
+
+  # Defines the Pod template.
+  template:
+    metadata:
+      labels:
+        app: statistics-service
+
+    spec:
+      containers:
+        # The container running our FastAPI Statistics Service.
+        - name: statistics-service
+
+          # Docker image stored on Docker Hub.
+          image: ahmadhbg/statistics-service:1.0
+          imagePullPolicy: IfNotPresent
+
+          # Port where FastAPI listens inside the container.
+          ports:
+            - containerPort: 8000
+
+          # Configures the internal address of Task Service.
+          env:
+            - name: TASK_SERVICE_URL
+              value: "http://task-service:8000"

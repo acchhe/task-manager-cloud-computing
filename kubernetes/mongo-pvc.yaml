@@ -1,0 +1,20 @@
+# Kubernetes API version for PersistentVolumeClaims.
+apiVersion: v1
+
+# Requests persistent storage for MongoDB.
+kind: PersistentVolumeClaim
+
+metadata:
+  # Name of the storage claim.
+  name: mongo-pvc
+
+spec:
+  # Allows the volume to be mounted for reading and writing
+  # by a single node.
+  accessModes:
+    - ReadWriteOnce
+
+  # Amount of persistent storage requested.
+  resources:
+    requests:
+      storage: 1Gi

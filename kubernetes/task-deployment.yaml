@@ -1,0 +1,47 @@
+# Specifies the Kubernetes API version used for Deployments.
+apiVersion: apps/v1
+
+# Defines the type of Kubernetes resource.
+# A Deployment manages Pods and maintains the desired number of replicas.
+kind: Deployment
+
+# Metadata describing the Deployment.
+metadata:
+  # The name of the Deployment.
+  name: task-service
+
+# Defines the desired state of the Deployment.
+spec:
+  # Number of Pod replicas Kubernetes should maintain.
+  # Changing this to 3 will create three Task Service Pods.
+  replicas: 2
+
+  # Selects the Pods managed by this Deployment.
+  selector:
+    matchLabels:
+      app: task-service
+
+  # Template used to create new Pods.
+  template:
+
+    # Metadata assigned to each Pod.
+    metadata:
+      labels:
+        # This label must match the Deployment selector.
+        app: task-service
+
+    # Defines the configuration of each Pod.
+    spec:
+
+      # List of containers running inside the Pod.
+      containers:
+        - name: task-service
+          image: ahmadhbg/task-service:1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+
+          # MongoDB connection string inside the Kubernetes cluster.
+          env:
+            - name: MONGO_URI
+              value: "mongodb://mongodb:27017/"

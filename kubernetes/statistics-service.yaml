@@ -1,0 +1,26 @@
+# Specifies the Kubernetes API version used for Services.
+apiVersion: v1
+
+# Defines a Service resource.
+# A Service provides a stable network endpoint for Pods.
+kind: Service
+
+metadata:
+  # The name of the Statistics Service.
+  name: statistics-service
+
+spec:
+  # Exposes Statistics Service through a load balancer.
+  type: LoadBalancer
+
+  # Selects Pods running Statistics Service.
+  selector:
+    app: statistics-service
+
+  # Defines the ports used by the Service.
+  ports:
+    # External Service port, different from Task Service.
+    - port: 8001
+
+      # Port where FastAPI runs inside the container.
+      targetPort: 8000

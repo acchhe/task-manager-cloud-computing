@@ -1,0 +1,29 @@
+# Specifies the Kubernetes API version used for Services.
+apiVersion: v1
+
+# Defines the type of Kubernetes resource.
+# A Service provides a stable network endpoint for Pods.
+kind: Service
+
+metadata:
+  # The name used to access Task Service inside the Kubernetes cluster.
+  name: task-service
+
+spec:
+  # Exposes Task Service through a load balancer.
+  type: LoadBalancer
+
+  # Selects Pods running Task Service.
+  selector:
+    app: task-service
+
+  # Defines the ports used by the Service.
+  ports:
+    # Internal Service port.
+    - port: 8000
+
+      # Port used by FastAPI inside the container.
+      targetPort: 8000
+
+      # External port on the Kubernetes node.
+      nodePort: 30080

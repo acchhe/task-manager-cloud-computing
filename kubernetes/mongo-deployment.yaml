@@ -1,0 +1,46 @@
+# Kubernetes API version for Deployments.
+apiVersion: apps/v1
+
+# Creates a Deployment to manage the MongoDB Pod.
+kind: Deployment
+
+metadata:
+  # Name of the MongoDB Deployment.
+  name: mongodb
+
+spec:
+  # Run one MongoDB instance.
+  replicas: 1
+
+  # Select Pods belonging to this Deployment.
+  selector:
+    matchLabels:
+      app: mongodb
+
+  # Template used to create the MongoDB Pod.
+  template:
+    metadata:
+      labels:
+        app: mongodb
+
+    spec:
+      containers:
+        - name: mongodb
+
+          # Official MongoDB Docker image.
+          image: mongo:8
+
+          # MongoDB listens on port 27017.
+          ports:
+            - containerPort: 27017
+
+          # Mount persistent storage inside the container.
+          volumeMounts:
+            - name: mongo-storage
+              mountPath: /data/db
+
+      # Connect the Pod to our PersistentVolumeClaim.
+      volumes:
+        - name: mongo-storage
+          persistentVolumeClaim:
+            claimName: mongo-pvc
